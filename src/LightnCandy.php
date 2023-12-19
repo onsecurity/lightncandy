@@ -19,6 +19,8 @@ Origin: https://github.com/zordius/lightncandy
 
 namespace LightnCandy;
 
+use LightnCandy\Exceptions\CompileException;
+
 /**
  * LightnCandy major static class
  */
@@ -105,7 +107,7 @@ class LightnCandy extends Flags
                 error_log(implode("\n", $context['error']));
             }
             if ($context['flags']['exception']) {
-                throw new \Exception(implode("\n", $context['error']));
+                throw new CompileException("Failed to compile", $context['error']);
             }
             return true;
         }
