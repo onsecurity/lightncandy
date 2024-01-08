@@ -19,6 +19,8 @@ Origin: https://github.com/zordius/lightncandy
 
 namespace LightnCandy;
 
+use LightnCandy\Exceptions\RuntimeException;
+
 /**
  * LightnCandy class for Object property access on a string.
  */
@@ -101,7 +103,7 @@ class Runtime extends Encoder
      * @param array<string,array|string|integer> $cx render time context for lightncandy
      * @param string $err error message
      *
-     * @throws \Exception
+     * @throws RuntimeException
      */
     public static function err($cx, $err)
     {
@@ -110,7 +112,7 @@ class Runtime extends Encoder
             return;
         }
         if ($cx['flags']['debug'] & static::DEBUG_ERROR_EXCEPTION) {
-            throw new \Exception($err);
+            throw new RuntimeException($err);
         }
     }
 
