@@ -117,7 +117,9 @@ class Parser extends Token
 
         // handle double quoted string
         if (preg_match('/^"(.*)"$/', $v, $matched)) {
-            return static::getLiteral(preg_replace('/([^\\\\])\\\\\\\\"/', '$1"', preg_replace('/^\\\\\\\\"/', '"', $matched[1])), $asis, true);
+            // handle where contains empty string e.g \\"\\"
+            $replacement = str_replace('\\\\"\\\\"', '""', $matched[1]);
+            return static::getLiteral(preg_replace('/([^\\\\])\\\\\\\\"/', '$1"', preg_replace('/^\\\\\\\\"/', '"', $replacement)), $asis, true);
         }
 
         // handle single quoted string
