@@ -19,6 +19,7 @@ Origin: https://github.com/zordius/lightncandy
 
 namespace LightnCandy;
 
+use LightnCandy\Exceptions\InvalidTemplateException;
 use LightnCandy\Exceptions\RuntimeException;
 
 /**
@@ -706,6 +707,9 @@ class Runtime extends Encoder
 
         try {
             $r = call_user_func_array($cx['helpers'][$ch], $args);
+        } catch (InvalidTemplateException $e) {
+            // this is a custom exception that can be handled, just re-throw
+            throw $e;
         } catch (\Throwable $E) {
             static::err($cx, "Runtime: call custom helper '$ch' error: " . $E->getMessage());
         }
