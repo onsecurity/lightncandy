@@ -116,14 +116,14 @@ class Parser extends Token
         }
 
         // handle double quoted string
-        if (preg_match('/^"(.*)"$/', $v, $matched)) {
+        if (preg_match('/^"(.*)"$/s', $v, $matched)) {
             // handle where contains empty string e.g \\"\\"
             $replacement = str_replace('\\\\"\\\\"', '""', $matched[1]);
             return static::getLiteral(preg_replace('/([^\\\\])\\\\\\\\"/', '$1"', preg_replace('/^\\\\\\\\"/', '"', $replacement)), $asis, true);
         }
 
         // handle single quoted string
-        if (preg_match('/^\\\\\'(.*)\\\\\'$/', $v, $matched)) {
+        if (preg_match('/^\\\\\'(.*)\\\\\'$/s', $v, $matched)) {
             return static::getLiteral($matched[1], $asis, true);
         }
 
@@ -367,7 +367,7 @@ class Parser extends Token
                 }
             }
 
-            if ($context['flags']['advar'] && !preg_match("/^(\"|\\\\')(.*)(\"|\\\\')$/", $var)) {
+            if ($context['flags']['advar'] && !preg_match("/^(\"|\\\\')(.*)(\"|\\\\')$/s", $var)) {
                 // foo]  Rule 1: no starting [ or [ not start from head
                 if (preg_match('/^[^\\[\\.]+[\\]\\[]/', $var)
                     // [bar  Rule 2: no ending ] or ] not in the end
@@ -495,7 +495,7 @@ class Parser extends Token
                     }
                 }
                 // if we are inside quotes, we should later skip stack changes
-                $quotes = preg_match("/^\".*\"$|^\'.*\'$/", $t);
+                $quotes = preg_match("/^\".*\"$|^\'.*\'$/s", $t);
 
                 // continue from previous match when expect something
                 if ($expect) {
